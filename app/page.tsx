@@ -20,7 +20,7 @@ export default function Home({
   return (
     <>
       <Header />
-      <section className="m-auto flex h-full w-full flex-col items-center justify-start gap-8 bg-zinc-100 px-16 py-8">
+      <section className="m-auto flex min-h-dvh h-full w-full flex-col items-center justify-start gap-8 bg-zinc-100 px-16 py-8">
         <Suspense fallback={<p>Loading...</p>}>
           <WeatherCard lat={currentLat} lng={currentLng} />
         </Suspense>
