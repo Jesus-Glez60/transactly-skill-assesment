@@ -52,7 +52,7 @@ export async function loginUser(formData: FormData) {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     });
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error((error as Error).message);
   }
 
   revalidatePath('/register');
@@ -83,7 +83,7 @@ export async function createUser(formData: FormData) {
     await sql<User>`INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${hashedPassword})`;
   } catch (error) {
     console.error('Failed to create user:', error);
-    throw new Error(error.message);
+    throw new Error((error as Error).message);
   }
 
   revalidatePath('/register');
