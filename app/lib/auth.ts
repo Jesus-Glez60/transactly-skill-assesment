@@ -101,3 +101,13 @@ export async function getSession() {
 
   return session;
 }
+
+export async function logout() {
+  console.log('logging out');
+
+  if (cookies().has('session')) {
+    cookies().delete('session');
+  }
+
+  revalidatePath('/');
+}

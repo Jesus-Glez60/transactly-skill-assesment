@@ -63,12 +63,11 @@ export async function setFavoriteLocation(
 
   const cookieStore = cookies();
   const session = cookieStore.get('session');
+  const userId = session?.value;
 
-  if (!session) {
+  if (!userId) {
     return false;
   }
-
-  const userId = session?.value;
 
   let locationId = 0;
 
@@ -108,12 +107,11 @@ export async function setFavoriteLocation(
 export async function fetchFavoriteLocations() {
   const cookieStore = cookies();
   const session = cookieStore.get('session');
+  const userId = session?.value;
 
-  if (!session) {
+  if (!userId) {
     return [];
   }
-
-  const userId = session.value;
 
   const favorites =
     await sql`SELECT * FROM user_favorites WHERE user_id=${userId}`;

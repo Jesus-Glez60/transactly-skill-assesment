@@ -1,4 +1,5 @@
 'use client';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { ChangeEvent, useState } from 'react';
 import Results from './Results';
 
@@ -18,7 +19,7 @@ export default function Search() {
   };
 
   return (
-    <div className="relative flex flex-1 flex-shrink-0 flex-col items-center justify-center gap-4">
+    <div className="relative flex flex-col items-center justify-center gap-4">
       <input
         type="text"
         placeholder="Search..."
@@ -26,6 +27,8 @@ export default function Search() {
         value={inputValue ?? ''}
         onChange={handleChange}
       />
+
+      <MagnifyingGlassIcon className="absolute right-3 top-4 h-5 w-5" />
 
       {showResults && <Results query={inputValue} onSearch={handleSearch} />}
     </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { HeartIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { fetchFavoriteLocations, setFavoriteLocation } from '../lib/weather';
 
@@ -15,25 +16,25 @@ export default function FavoriteButton({
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
+    async function checkFavorite() {
+      const favorites = await fetchFavoriteLocations();
+
+      if (
+        favorites.some(
+          (favorite) => favorite.lat === lat && favorite.lng === lng,
+        )
+      ) {
+        setIsFavorite(true);
+      }
+    }
+
     checkFavorite();
-  }, []);
+  }, [lat, lng]);
 
   async function toggleFavorite() {
     const result = await setFavoriteLocation(location, lat, lng);
 
     setIsFavorite(result);
-  }
-
-  async function checkFavorite() {
-    const favorites = await fetchFavoriteLocations();
-
-    favorites.some((favorite) => favorite.lat === lat && favorite.lng === lng);
-
-    if (
-      favorites.some((favorite) => favorite.lat === lat && favorite.lng === lng)
-    ) {
-      setIsFavorite(true);
-    }
   }
 
   return (
@@ -43,7 +44,11 @@ export default function FavoriteButton({
       }`}
       onClick={toggleFavorite}
     >
-      x
+      <HeartIcon
+        className={`h-4 w-4 ${
+          isFavorite ? 'outline-red-500' : 'outline-black hover:fill-red-500'
+        }`}
+      />
     </button>
   );
 }
