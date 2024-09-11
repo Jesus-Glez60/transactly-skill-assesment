@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSession, logout } from '../lib/auth';
 import Search from './Search';
 
@@ -19,10 +19,7 @@ export default function Header() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const params = useMemo(
-    () => new URLSearchParams(searchParams),
-    [searchParams],
-  );
+  const params = new URLSearchParams(searchParams);
 
   useEffect(() => {
     getSession().then((session) => {
@@ -40,20 +37,20 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    function setLocationParams() {
-      if (location && !params.has('lat') && !params.has('lng')) {
-        params.set('lat', location[0].toString());
-        params.set('lng', location[1].toString());
-      } else {
-        params.delete('lat');
-        params.delete('lng');
-      }
+    setLocationParams();
+  }, [location]);
 
-      replace(`${pathname}?${params.toString()}`);
+  function setLocationParams() {
+    if (location && !params.has('lat') && !params.has('lng')) {
+      params.set('lat', location[0].toString());
+      params.set('lng', location[1].toString());
+    } else {
+      params.delete('lat');
+      params.delete('lng');
     }
 
-    setLocationParams();
-  }, [location, params, pathname, replace]);
+    replace(`${pathname}?${params.toString()}`);
+  }
 
   return (
     <header className="mx-auto flex h-20 w-full justify-between px-16 pt-6">

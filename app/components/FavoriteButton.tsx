@@ -29,7 +29,7 @@ export default function FavoriteButton({
     }
 
     checkFavorite();
-  }, [lat, lng]);
+  }, [lat, lng, isFavorite]);
 
   async function toggleFavorite() {
     const result = await setFavoriteLocation(location, lat, lng);
